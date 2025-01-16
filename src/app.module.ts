@@ -6,7 +6,7 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/tareas', {}),
+    MongooseModule.forRoot('mongodb://mongo:YKuHlwpFckFqtLhYPgWvKPUUXBOywizK@mongodb.railway.internal:27017', {}),
     TaskModule,
     UserModule,
     AuthModule,
