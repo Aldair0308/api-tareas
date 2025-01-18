@@ -4,6 +4,7 @@ import { TaskModule } from './task/task.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { DeptosModule } from './deptos/deptos.module';
+import { ClientesModule } from './clientes/clientes.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { DeptosModule } from './deptos/deptos.module';
     UserModule,
     AuthModule,
     DeptosModule,
+    ClientesModule,
   ],
   controllers: [],
   providers: [],
