@@ -1,6 +1,13 @@
-
 // clientes.controller.ts
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ClientesService } from './clientes.service';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
@@ -37,5 +44,10 @@ export class ClientesController {
   @Get('info')
   getClientesInfo() {
     return this.clientesService.getClientesInfo();
+  }
+
+  @Get('depto/:numero')
+  findByDepto(@Param('numero') numero: string) {
+    return this.clientesService.findByDepto(+numero);
   }
 }

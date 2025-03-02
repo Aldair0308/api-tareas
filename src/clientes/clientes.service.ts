@@ -54,4 +54,12 @@ export class ClientesService {
     const clientes = await this.clienteModel.find({}, 'depto nombre telefono').exec();
     return clientes.filter(cliente => cliente.depto !== null && !isNaN(cliente.depto));
   }
+
+  async findByDepto(depto: number): Promise<Cliente | null> {
+    const cliente = await this.clienteModel.findOne({ depto }).exec();
+    if (!cliente) {
+      throw new NotFoundException(`No se encontró cliente para el departamento ${depto}`);
+    }
+    return cliente;
+  }
 }
