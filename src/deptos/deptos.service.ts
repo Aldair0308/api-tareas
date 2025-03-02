@@ -53,6 +53,7 @@ export class DeptosService {
       return deptos.map((depto) => ({
         depto: depto.numero,
         vencimiento: depto.vencimiento.toISOString(),
+        monto: depto.precio,
       }));
     } catch (error) {
       console.error('Error al obtener los días de pago:', error);
