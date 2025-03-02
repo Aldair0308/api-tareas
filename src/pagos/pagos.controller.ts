@@ -16,7 +16,10 @@ export class PagosController {
   findAll() {
     return this.pagosService.findAll();
   }
-
+  @Get('paid')
+  getPaidPagos() {
+    return this.pagosService.getPaidPagos();
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.pagosService.findOne(id);

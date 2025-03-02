@@ -17,7 +17,17 @@ export class PagosService {
   async findAll(): Promise<Pago[]> {
     return await this.pagoModel.find().exec();
   }
+  async getPaidPagos(): Promise<Pago[]> {
+    const twoMonthsAgo = new Date();
+    twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
 
+    return await this.pagoModel
+      .find({
+        activo: false,
+        fecha: { $gte: twoMonthsAgo },
+      })
+      .exec();
+  }
   async findOne(id: string): Promise<Pago> {
     const pago = await this.pagoModel.findById(id).exec();
     if (!pago) {
@@ -27,11 +37,9 @@ export class PagosService {
   }
 
   async update(id: string, updatePagoDto: UpdatePagoDto): Promise<Pago> {
-    const pagoActualizado = await this.pagoModel.findByIdAndUpdate(
-      id,
-      updatePagoDto,
-      { new: true },
-    ).exec();
+    const pagoActualizado = await this.pagoModel
+      .findByIdAndUpdate(id, updatePagoDto, { new: true })
+      .exec();
     if (!pagoActualizado) {
       throw new NotFoundException(`Pago con el ID ${id} no encontrado`);
     }
