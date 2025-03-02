@@ -33,4 +33,9 @@ export class DeptosController {
   remove(@Param('id') id: string) {
     return this.deptosService.remove(id);
   }
+
+  @Get('pay-days')
+  getPayDays() {
+    return this.deptosService.getPayDays();
+  }
 }

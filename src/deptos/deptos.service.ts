@@ -1,4 +1,3 @@
-
 // deptos.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -31,7 +30,9 @@ export class DeptosService {
   }
 
   async update(id: string, updateDeptoDto: UpdateDeptoDto): Promise<Depto> {
-    const updatedDepto = await this.deptoModel.findByIdAndUpdate(id, updateDeptoDto, { new: true }).exec();
+    const updatedDepto = await this.deptoModel
+      .findByIdAndUpdate(id, updateDeptoDto, { new: true })
+      .exec();
     if (!updatedDepto) {
       throw new NotFoundException(`Depto con el ID ${id} no encontrado`);
     }
@@ -44,5 +45,18 @@ export class DeptosService {
       throw new NotFoundException(`Depto con el ID ${id} no encontrado`);
     }
     return { message: `Depto con el ID ${id} ha sido eliminado` };
+  }
+
+  async getPayDays(): Promise<{ depto: number; vencimiento: string }[]> {
+    try {
+      const deptos = await this.deptoModel.find({ activo: true }).exec();
+      return deptos.map((depto) => ({
+        depto: depto.numero,
+        vencimiento: depto.vencimiento.toISOString(),
+      }));
+    } catch (error) {
+      console.error('Error al obtener los días de pago:', error);
+      throw error;
+    }
   }
 }
