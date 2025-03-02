@@ -24,6 +24,7 @@ export class PagosService {
     return await this.pagoModel
       .find({
         activo: false,
+        tipo: 'mensualidad',
         fecha: { $gte: twoMonthsAgo },
       })
       .exec();
