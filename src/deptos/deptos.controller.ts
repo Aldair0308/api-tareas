@@ -19,6 +19,11 @@ export class DeptosController {
     return this.deptosService.findAll();
   }
 
+  @Get('pay-days')
+  getPayDays() {
+    return this.deptosService.getPayDays();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.deptosService.findOne(id);
@@ -32,10 +37,5 @@ export class DeptosController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.deptosService.remove(id);
-  }
-
-  @Get('pay-days')
-  getPayDays() {
-    return this.deptosService.getPayDays();
   }
 }
