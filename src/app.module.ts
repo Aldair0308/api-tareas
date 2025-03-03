@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ScheduleModule } from '@nestjs/schedule';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TaskModule } from './task/task.module';
 import { UserModule } from './user/user.module';
@@ -9,6 +10,7 @@ import { PagosModule } from './pagos/pagos.module';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     MongooseModule.forRoot('mongodb://mongo:YKuHlwpFckFqtLhYPgWvKPUUXBOywizK@mongodb.railway.internal:27017', {}),
     TaskModule,
     UserModule,

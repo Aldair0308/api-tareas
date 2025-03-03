@@ -7,6 +7,7 @@ import { CreateDeptoDto } from './dto/create-depto.dto';
 import { UpdateDeptoDto } from './dto/update-depto.dto';
 import { PagosService } from '../pagos/pagos.service';
 import { ClientesService } from '../clientes/clientes.service';
+import { Cron } from '@nestjs/schedule';
 
 @Injectable()
 export class DeptosService {
@@ -67,6 +68,7 @@ export class DeptosService {
     }
   }
 
+  @Cron('0 0 1 * * *') // Run at 1:00 AM every day
   async checkAndCreatePayments(): Promise<void> {
     try {
       console.log('Starting checkAndCreatePayments process...');
