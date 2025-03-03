@@ -69,31 +69,74 @@ export class DeptosService {
 
   async checkAndCreatePayments(): Promise<void> {
     try {
+      console.log('Starting checkAndCreatePayments process...');
       const payDays = await this.getPayDays();
+      console.log('PayDays retrieved:', JSON.stringify(payDays, null, 2));
       const today = new Date();
+      console.log('Current date:', today.toISOString());
 
       for (const payDay of payDays) {
+        console.log(`\nProcessing department ${payDay.depto}...`);
         const paymentDate = new Date(payDay.vencimiento);
+        console.log('Payment due date:', paymentDate.toISOString());
 
         // Check if payment is due today
-        if (
-          paymentDate.getFullYear() === today.getFullYear() &&
-          paymentDate.getMonth() === today.getMonth() &&
-          paymentDate.getDate() === today.getDate()
-        ) {
-          // Fetch client information directly from the service
-          const clientData = await this.clientesService.findByDepto(
-            payDay.depto,
-          );
+        const isSameYear = paymentDate.getFullYear() === today.getFullYear();
+        const isSameMonth = paymentDate.getMonth() === today.getMonth();
+        const isSameDay = paymentDate.getDate() === today.getDate();
 
-          // Create payment
-          await this.pagosService.create({
-            monto: payDay.monto,
-            tipo: 'mensualidad',
-            depto: payDay.depto.toString(),
-            cliente: clientData.nombre,
-            telefono: clientData.telefono,
-          });
+        console.log('Date comparison:', {
+          isSameYear,
+          isSameMonth,
+          isSameDay,
+          shouldCreatePayment: isSameYear && isSameMonth && isSameDay,
+        });
+
+        if (isSameYear && isSameMonth && isSameDay) {
+          console.log(`Payment is due today for department ${payDay.depto}`);
+          try {
+            // Fetch client information directly from the service
+            console.log(
+              `Fetching client data for department ${payDay.depto}...`,
+            );
+            const clientData = await this.clientesService.findByDepto(
+              payDay.depto,
+            );
+            console.log('Client data retrieved:', {
+              depto: payDay.depto,
+              nombre: clientData.nombre,
+              telefono: clientData.telefono,
+            });
+
+            // Create payment
+            console.log('Creating payment with data:', {
+              monto: payDay.monto,
+              tipo: 'mensualidad',
+              depto: payDay.depto.toString(),
+              cliente: clientData.nombre,
+              telefono: clientData.telefono,
+            });
+
+            const createdPayment = await this.pagosService.create({
+              monto: payDay.monto,
+              tipo: 'mensualidad',
+              depto: payDay.depto.toString(),
+              cliente: clientData.nombre,
+              telefono: clientData.telefono,
+            });
+
+            console.log('Payment created successfully:', createdPayment);
+          } catch (error) {
+            console.error(
+              `Error processing payment for department ${payDay.depto}:`,
+              error,
+            );
+            throw error;
+          }
+        } else {
+          console.log(
+            `Payment is not due today for department ${payDay.depto}`,
+          );
         }
       }
     } catch (error) {
