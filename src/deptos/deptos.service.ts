@@ -1,5 +1,5 @@
 // deptos.service.ts
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as crypto from 'node:crypto';
@@ -11,7 +11,11 @@ import { ClientesService } from '../clientes/clientes.service';
 import { Cron } from '@nestjs/schedule';
 
 @Injectable()
-export class DeptosService {
+export class DeptosService implements OnModuleInit {
+  async onModuleInit() {
+    console.log('DeptosService initialized - Running initial payment check...');
+    await this.checkAndCreatePayments();
+  }
   constructor(
     @InjectModel('Depto') private readonly deptoModel: Model<Depto>,
     private readonly pagosService: PagosService,
