@@ -2,6 +2,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import * as crypto from 'node:crypto';
 import { Depto } from './schemas/depto.schema';
 import { CreateDeptoDto } from './dto/create-depto.dto';
 import { UpdateDeptoDto } from './dto/update-depto.dto';
