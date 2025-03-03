@@ -8,5 +8,6 @@ import { PagoSchema } from './schemas/pago.schema';
   imports: [MongooseModule.forFeature([{ name: 'Pago', schema: PagoSchema }])],
   controllers: [PagosController],
   providers: [PagosService],
+  exports: [PagosService]
 })
 export class PagosModule {}
