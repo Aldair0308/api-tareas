@@ -1,6 +1,6 @@
 // depto.schema.ts
-import { Schema, Document } from 'mongoose';
-
+import { Schema } from '@nestjs/mongoose'; // Schema desde NestJS
+import { Document } from 'mongoose'; // Document desde mongoose
 
 export interface Depto extends Document {
   numero: number;
@@ -11,7 +11,8 @@ export interface Depto extends Document {
   activo: boolean;
 }
 
-export const DeptoSchema = new Schema({
+// Tipado explícito para el Schema (mongoose >=6.x)
+export const DeptoSchema = new Schema<Depto>({
   numero: { type: Number, required: true },
   precio: { type: Number, required: true },
   deposito: { type: Number, required: true },
@@ -19,4 +20,3 @@ export const DeptoSchema = new Schema({
   vencimiento: { type: Date, default: Date.now },
   activo: { type: Boolean, default: true },
 });
-
