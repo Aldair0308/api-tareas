@@ -1,6 +1,5 @@
 // depto.schema.ts
-import { Schema } from '@nestjs/mongoose'; // Schema desde NestJS
-import { Document } from 'mongoose'; // Document desde mongoose
+import { Schema, Document } from 'mongoose'; // ✅ Schema desde mongoose
 
 export interface Depto extends Document {
   numero: number;
@@ -11,8 +10,8 @@ export interface Depto extends Document {
   activo: boolean;
 }
 
-// Tipado explícito para el Schema (mongoose >=6.x)
 export const DeptoSchema = new Schema<Depto>({
+  // ✅ Tipado correcto
   numero: { type: Number, required: true },
   precio: { type: Number, required: true },
   deposito: { type: Number, required: true },
